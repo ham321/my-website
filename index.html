@@ -5,129 +5,127 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
+    /* Base reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 100%;
+      height: 100%;
       background: #ffe8f0;
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow: hidden;
+      overflow-x: hidden;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 1rem;
     }
 
-    .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    .content {
+      max-width: 600px;
+      width: 100%;
+      position: relative;
     }
-
     h1 {
-      font-size: 2em;
+      font-size: clamp(1.5rem, 5vw, 3rem);
       margin-bottom: 1rem;
       color: #d63384;
     }
-
     p {
-      font-size: 1.2em;
+      font-size: clamp(1rem, 3vw, 1.2rem);
       color: #444;
+      margin-bottom: 0.75rem;
     }
 
     #gift {
-      font-size: 100px;
+      font-size: clamp(3rem, 10vw, 6rem);
       cursor: pointer;
       transition: transform 0.2s;
       position: relative;
+      display: inline-block;
     }
 
     #gift:hover::after {
       content: "Click me! Free hug inside";
       position: absolute;
-      top: -30px;
+      top: -2rem;
       left: 50%;
       transform: translateX(-50%);
       background: #fff3cd;
       color: #856404;
-      padding: 4px 8px;
+      padding: 0.25rem 0.5rem;
       border-radius: 6px;
       font-size: 0.85em;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
       white-space: nowrap;
       pointer-events: none;
-      user-select: none;
     }
-
     #gift:hover {
       transform: scale(1.2);
     }
 
+    /* Modal styles */
     #imageModal {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      inset: 0;
       background: rgba(0, 0, 0, 0.85);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 999;
-      padding: 20px;
-      box-sizing: border-box;
+      padding: 1rem;
+      text-align: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
     }
-
+    #imageModal.active {
+      visibility: visible;
+      opacity: 1;
+    }
     #modal-caption {
       color: #fff8dc;
-      font-size: 1em;
-      margin-bottom: 12px;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      margin-bottom: 1rem;
       font-style: italic;
       user-select: none;
       text-shadow: 0 0 5px rgba(0,0,0,0.7);
     }
-
     #imageModal img {
-      width: 95vw;
+      width: 90vw;
+      max-width: 500px;
       height: auto;
-      max-height: 85vh;
+      max-height: 80vh;
       box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
       border-radius: 10px;
       user-select: none;
     }
 
-    #imageModal.hidden {
-      display: none;
-    }
-
+    /* Confetti */
     .confetti {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      background: red;
+      width: 8px;
+      height: 8px;
       opacity: 0.7;
-      animation: fall 5s infinite;
+      animation: fall linear infinite;
     }
-
     @keyframes fall {
-      0% {
-        transform: translateY(-10vh) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <div class="center">
+  <div class="content">
     <h1>🎂 Happy 23rd, Laura! 🎉</h1>
     <p>Your incredibly generous brother has crafted something mysterious and delightful for you.</p>
     <p>Click the magical gift below to reveal the surprise... 🎁✨</p>
     <div id="gift">🎁</div>
   </div>
 
-  <div id="imageModal" class="hidden">
+  <div id="imageModal">
     <p id="modal-caption">This is your free virtual hug 🤗 (no refunds!)</p>
     <img src="IMG_2831.png" alt="Birthday Surprise" />
   </div>
@@ -140,18 +138,18 @@
     const modal = document.getElementById('imageModal');
 
     gift.addEventListener('click', () => {
-      modal.classList.remove('hidden');
+      modal.classList.add('active');
       music.play();
     });
 
     modal.addEventListener('click', () => {
-      modal.classList.add('hidden');
+      modal.classList.remove('active');
       music.pause();
       music.currentTime = 0;
     });
 
     // Confetti generator
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 80; i++) {
       const confetti = document.createElement('div');
       confetti.classList.add('confetti');
       confetti.style.left = `${Math.random() * 100}vw`;
