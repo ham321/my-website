@@ -19,23 +19,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      max-width: 90vw;
-      padding: 0 10px;
-      box-sizing: border-box;
     }
 
     h1 {
       font-size: 2em;
       margin-bottom: 1rem;
       color: #d63384;
-      word-break: break-word;
     }
 
     p {
       font-size: 1.2em;
       color: #444;
-      margin: 0.3em 0;
-      word-break: break-word;
     }
 
     #gift {
@@ -43,8 +37,6 @@
       cursor: pointer;
       transition: transform 0.2s;
       position: relative;
-      user-select: none;
-      margin-top: 20px;
     }
 
     #gift:hover::after {
@@ -91,9 +83,6 @@
       font-style: italic;
       user-select: none;
       text-shadow: 0 0 5px rgba(0,0,0,0.7);
-      max-width: 90vw;
-      text-align: center;
-      word-break: break-word;
     }
 
     #imageModal img {
@@ -103,7 +92,6 @@
       box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
       border-radius: 10px;
       user-select: none;
-      max-width: 600px; /* limit max size on large screens */
     }
 
     #imageModal.hidden {
@@ -127,35 +115,6 @@
       100% {
         transform: translateY(110vh) rotate(360deg);
         opacity: 0;
-      }
-    }
-
-    /* Responsive tweaks for smaller screens */
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.5em;
-      }
-      p {
-        font-size: 1em;
-      }
-      #gift {
-        font-size: 70px;
-        margin-top: 15px;
-      }
-      #gift:hover::after {
-        font-size: 0.75em;
-        top: -25px;
-        padding: 3px 6px;
-      }
-      #modal-caption {
-        font-size: 0.9em;
-        margin-bottom: 8px;
-        max-width: 90vw;
-        padding: 0 5px;
-      }
-      #imageModal img {
-        width: 90vw;
-        max-height: 70vh;
       }
     }
   </style>
