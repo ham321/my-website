@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🎉 Surprise, Laura! 🎈</title>
+  <title>🎉 Boom! Surprise, Laura! 🎊</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     * { margin:0; padding:0; box-sizing:border-box }
     body {
-      background: #fff3e0;
+      background: #f0f8ff;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       overflow: hidden;
       display: flex;
@@ -16,75 +16,108 @@
       justify-content: center;
       height: 100vh;
       text-align: center;
-      color: #6d4c41;
+      color: #333;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
-      animation: wiggle 1s ease-in-out infinite alternate;
+      color: #ff3d71;
+      text-shadow: 2px 2px #ffe0f0;
+      animation: shake 0.5s ease-in-out infinite alternate;
     }
-    @keyframes wiggle {
-      from { transform: rotate(-3deg); }
-      to   { transform: rotate(3deg); }
+    @keyframes shake {
+      from { transform: rotate(-2deg); }
+      to   { transform: rotate(2deg); }
     }
     img {
       width: 250px;
-      border: 8px dashed #ffab00;
-      border-radius: 50%;
-      animation: pulse 2s infinite ease-in-out;
+      height: 250px;
+      object-fit: cover;
+      border: 10px solid #ffdd59;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transform: scale(0);
+      animation: pop 0.6s ease-out forwards;
+      animation-delay: 0.5s;
     }
-    @keyframes pulse {
-      0%,100% { transform: scale(1); }
-      50%      { transform: scale(1.1); }
+    @keyframes pop {
+      to { transform: scale(1); }
+      from { transform: scale(0); }
     }
     button {
       margin-top: 1.5rem;
-      padding: 0.8rem 1.6rem;
-      font-size: 1rem;
-      background: #ffab00;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background: #ff6b6b;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background 0.2s;
     }
-    button:hover { transform: scale(1.05); }
-
+    button:hover {
+      background: #ee5253;
+      transform: scale(1.1);
+    }
     .confetti {
       position: fixed;
       width: 12px; height: 12px;
-      background: #ff5252;
       opacity: 0.9;
       border-radius: 50%;
-      animation: drop 3s ease-in forwards;
+      animation: fall 3s ease-in forwards;
     }
-    @keyframes drop {
-      from { transform: translateY(-10vh) rotate(0deg); }
+    @keyframes fall {
+      from { transform: translateY(-20vh) rotate(0deg); }
       to   { transform: translateY(110vh) rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <h1>Happy 23rd, Laura!</h1>
-  <img src="IMG_2831.png" alt="Laura" />
 
-  <button onclick="partyTime()">Let’s Party 🎊</button>
+  <h1>🎉 Pow! Happy 23rd, Laura! 🎂</h1>
+  <img src="IMG_2831.png" alt="Laura's Big Moment" />
+
+  <button onclick="partyTime()">💥 Ignite Party Bomb 💥</button>
+
+  <audio id="boomSound" src="https://actions.google.com/sounds/v1/explosions/explosion.ogg"></audio>
 
   <script>
     function partyTime() {
-      // Simple alert
-      alert("🥳 Woohoo! You're officially 23 and fabulous! 🥳");
-      // Create confetti
-      for (let i = 0; i < 50; i++) {
+      // Play an explosive sound
+      document.getElementById('boomSound').play();
+
+      // Supercharged confetti blast
+      for (let i = 0; i < 100; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + 'vw';
-        c.style.background = ['#ff5252','#ffdd59','#1dd1a1','#54a0ff'][Math.floor(Math.random()*4)];
+        c.style.top  = Math.random() * -20 + 'vh';
+        c.style.background = ['#ff3d71','#ffdd59','#1dd1a1','#54a0ff'][Math.floor(Math.random()*4)];
         c.style.animationDelay = Math.random() + 's';
+        c.style.animationDuration = (2 + Math.random()*2) + 's';
         document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3500);
+        setTimeout(() => c.remove(), 4000);
       }
+
+      // Surprise banner
+      setTimeout(() => {
+        const banner = document.createElement('div');
+        banner.textContent = '🎉 YOU ARE LEGENDARY, LAURA! 🎉';
+        banner.style.position = 'fixed';
+        banner.style.top = '40%';
+        banner.style.left = '50%';
+        banner.style.transform = 'translate(-50%, -50%)';
+        banner.style.padding = '1rem 2rem';
+        banner.style.background = '#1dd1a1';
+        banner.style.color = '#fff';
+        banner.style.fontSize = '1.5rem';
+        banner.style.borderRadius = '8px';
+        banner.style.boxShadow = '0 4px 8px rgba(0,0,0,0.3)';
+        banner.style.opacity = '0';
+        banner.style.animation = 'bannerIn 1s forwards';
+        document.body.appendChild(banner);
+      }, 1200);
     }
   </script>
 </body>
