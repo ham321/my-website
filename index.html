@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
@@ -13,6 +13,8 @@
       --accent: #ff7043;
       --text: #333;
       --confetti-colors: #f44336, #ffeb3b, #8bc34a, #03a9f4;
+      --balloon-colors: #ff4081, #7c4dff, #448aff, #40c4ff;
+      --star-size: 6px;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -24,8 +26,11 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 1rem;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      -webkit-overflow-scrolling: touch;
     }
     h1 {
       font-size: clamp(2rem, 5vw, 3rem);
@@ -49,10 +54,9 @@
       gap: 1rem;
       flex-wrap: wrap;
       justify-content: center;
+      z-index: 10;
     }
-    button, input[type="range"] {
-      font-family: inherit;
-    }
+    button, input[type="range"] { font-family: inherit; }
     button {
       padding: 0.8rem 1.6rem;
       font-size: 1rem;
@@ -64,17 +68,9 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       transition: background 0.2s, transform 0.2s;
     }
-    button:hover:not(:disabled) {
-      background: #ff5722;
-      transform: scale(1.05);
-    }
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    input[type="range"] {
-      width: 150px;
-    }
+    button:hover:not(:disabled) { background: #ff5722; transform: scale(1.05); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    input[type="range"] { width: 150px; }
     #reveal {
       margin-top: 2rem;
       font-size: 1.2rem;
@@ -82,10 +78,11 @@
       transition: opacity 0.8s ease-in;
       white-space: pre-line;
       color: #444;
+      z-index: 10;
     }
     #surpriseImage {
       margin-top: 2rem;
-      max-width: 80vw;
+      max-width: 90vw;
       max-height: 300px;
       border: 6px dashed var(--accent);
       border-radius: 16px;
@@ -93,23 +90,39 @@
       display: none;
       transform: rotate(-5deg);
       transition: transform 0.3s ease;
+      z-index: 10;
     }
-    #surpriseImage:hover {
-      transform: rotate(5deg) scale(1.05);
-      cursor: pointer;
-    }
-    .confetti {
+    #surpriseImage:hover { transform: rotate(5deg) scale(1.05); cursor: pointer; }
+    .confetti, .star, .balloon {
       position: fixed;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      opacity: 0.9;
-      animation: drop 3s ease-in forwards;
       pointer-events: none;
-      z-index: 9999;
+      z-index: 1;
+      opacity: 0.8;
     }
     @keyframes drop {
       from { transform: translateY(-20vh) rotate(0deg); }
       to   { transform: translateY(110vh) rotate(360deg); }
+    }
+    @keyframes floatUp {
+      from { transform: translateY(110vh) scale(0.5); }
+      to   { transform: translateY(-20vh) scale(1); }
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.2; }
+      50% { opacity: 0.8; }
+    }
+    .star {
+      width: var(--star-size);
+      height: var(--star-size);
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+    .balloon {
+      width: 24px;
+      height: 32px;
+      background: red;
+      border-radius: 50% 50% 50% 50%;
     }
   </style>
 </head>
@@ -121,7 +134,7 @@
     <button id="goBtn" aria-pressed="false">✨ Shine On! ✨</button>
     <button id="muteBtn">🔇 Mute</button>
     <label for="volumeRange" class="sr-only">Volume</label>
-    <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="0.5">
+    <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="1">
   </div>
 
   <div id="reveal" role="status"></div>
@@ -136,12 +149,10 @@
     const sfx = document.getElementById('sfx');
     const img = document.getElementById('surpriseImage');
 
-    // Set initial volume
-    sfx.volume = volumeRange.value;
-
-    volumeRange.addEventListener('input', (e) => {
-      sfx.volume = e.target.value;
-    });
+    // Max volume
+    sfx.volume = 1;
+    volumeRange.value = 1;
+    volumeRange.addEventListener('input', e => sfx.volume = e.target.value);
 
     muteBtn.addEventListener('click', () => {
       sfx.muted = !sfx.muted;
@@ -149,34 +160,46 @@
     });
 
     btn.addEventListener('click', () => {
-      // Play audio (on user interaction)
       sfx.play();
-
-      // Reveal text
       txt.textContent = `👏 You Rocked It! 👏\n🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
       txt.style.opacity = '1';
-
-      // Show image
       img.style.display = 'block';
 
-      // Confetti
-      const colors = getComputedStyle(document.documentElement)
-        .getPropertyValue('--confetti-colors').split(',');
+      // Create confetti, stars, balloons
+      const confettiColors = getComputedStyle(document.documentElement).getPropertyValue('--confetti-colors').split(',');
+      const balloonColors = getComputedStyle(document.documentElement).getPropertyValue('--balloon-colors').split(',');
       for (let i = 0; i < 60; i++) {
-        const c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = `${Math.random() * 100}vw`;
-        c.style.background = colors[Math.floor(Math.random() * colors.length)];
-        c.style.animationDelay = `${(Math.random()).toFixed(2)}s`;
+        const c = document.createElement('div'); c.className = 'confetti';
+        c.style.left = `${Math.random()*100}vw`;
+        c.style.background = confettiColors[i % confettiColors.length];
+        c.style.animation = `drop 3s ease-in ${Math.random().toFixed(2)}s forwards`;
         document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3500);
+        setTimeout(() => c.remove(), 4000);
+      }
+      for (let i = 0; i < 30; i++) {
+        const s = document.createElement('div'); s.className = 'star';
+        s.style.left = `${Math.random()*100}vw`;
+        s.style.top = `${Math.random()*100}vh`;
+        s.style.animationDuration = `${2+Math.random()*2}s`;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 5000);
+      }
+      for (let i = 0; i < 20; i++) {
+        const b = document.createElement('div'); b.className = 'balloon';
+        b.style.left = `${Math.random()*100}vw`;
+        b.style.background = balloonColors[i % balloonColors.length];
+        b.style.animation = `floatUp ${4+Math.random()*3}s ease-out ${Math.random().toFixed(2)}s forwards`;
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), 7000);
       }
 
-      // Disable button
       btn.disabled = true;
       btn.setAttribute('aria-pressed', 'true');
       btn.textContent = "👏 You Rocked It! 👏";
     });
+
+    // Attempt autoplay
+    window.addEventListener('load', () => sfx.play().catch(()=>{}));
   </script>
 </body>
 </html>
