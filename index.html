@@ -2,138 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>😂 Laura’s Epic 23rd Remix 🎉</title>
+  <title>🎉 Surprise, Laura! 🎈</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    * { margin:0; padding:0; box-sizing:border-box }
     body {
-      background: #fffcf2;
+      background: #fff3e0;
       font-family: 'Comic Sans MS', cursive, sans-serif;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
       text-align: center;
-      color: #333;
+      color: #6d4c41;
     }
     h1 {
-      margin: 1rem 0;
-      font-size: 3rem;
-      color: #d6336c;
-      text-shadow: 2px 2px #ffe3e3;
-      animation: wobble 1s infinite alternate;
-    }
-    @keyframes wobble {
-      from { transform: rotate(-2deg); }
-      to   { transform: rotate(2deg); }
-    }
-    .container {
-      position: relative;
-      width: 300px;
-      height: 300px;
-      margin: 1rem auto;
-    }
-    img.face {
-      width: 100%;
-      height: auto;
-      border-radius: 50%;
-      border: 8px dashed #ff6b6b;
-      animation: spin 10s linear infinite;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    img.pup {
-      position: absolute;
-      width: 120px;
-      bottom: -20px;
-      right: -30px;
-      border: 5px solid #1dd1a1;
-      border-radius: 12px;
-      transform: rotate(15deg);
-      animation: bounce 2s ease-in-out infinite;
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0) rotate(15deg); }
-      50%      { transform: translateY(-20px) rotate(15deg); }
-    }
-    .speech {
-      position: absolute;
-      left: 10px;
-      top: -60px;
-      background: #fff;
-      border: 2px solid #54a0ff;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-      font-size: 0.9rem;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
-    button {
-      margin: 1.5rem auto;
-      padding: 0.8rem 1.6rem;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 8px;
-      background: #ff6b6b;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: transform 0.2s, background 0.2s;
-    }
-    button:hover {
-      background: #ee5253;
-      transform: scale(1.05);
-    }
-    .cake {
-      position: fixed;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      opacity: 0.8;
-      animation: wiggle 4s ease-in-out infinite;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      animation: wiggle 1s ease-in-out infinite alternate;
     }
     @keyframes wiggle {
-      0%,100% { transform: translateX(-50%) rotate(-5deg); }
-      50%     { transform: translateX(-50%) rotate(5deg); }
+      from { transform: rotate(-3deg); }
+      to   { transform: rotate(3deg); }
+    }
+    img {
+      width: 250px;
+      border: 8px dashed #ffab00;
+      border-radius: 50%;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50%      { transform: scale(1.1); }
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      background: #ffab00;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.05); }
+
+    .confetti {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: #ff5252;
+      opacity: 0.9;
+      border-radius: 50%;
+      animation: drop 3s ease-in forwards;
+    }
+    @keyframes drop {
+      from { transform: translateY(-10vh) rotate(0deg); }
+      to   { transform: translateY(110vh) rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <h1>😂 Happy 23rd, Laura! 😂</h1>
+  <h1>Happy 23rd, Laura!</h1>
+  <img src="IMG_2831.png" alt="Laura" />
 
-  <div class="container">
-    <!-- IMG_2830.heic as the “spinning head” -->
-    <img src="IMG_2830.heic" alt="Laura’s face" class="face" />
-    <!-- IMG_2831.png as the “pet sidekick” -->
-    <img src="IMG_2831.png" alt="Pet sidekick" class="pup" />
-    <div class="speech">“Is it cake o’clock yet?”</div>
-  </div>
-
-  <button onclick="surprise()">🎂 Surprise Me!</button>
-
-  <!-- A sneaky cake that drops in -->
-  <img src="https://raw.githubusercontent.com/ham321/my-website/main/cake.png"
-       alt="Falling Cake" class="cake" />
+  <button onclick="partyTime()">Let’s Party 🎊</button>
 
   <script>
-    function surprise() {
-      alert("🎉 Laura, brace yourself: You're now 23 and officially legendary! 🎉");
-      // Confetti flood
-      for (let i = 0; i < 60; i++) {
+    function partyTime() {
+      // Simple alert
+      alert("🥳 Woohoo! You're officially 23 and fabulous! 🥳");
+      // Create confetti
+      for (let i = 0; i < 50; i++) {
         const c = document.createElement('div');
-        c.style.position = 'fixed';
-        c.style.width = '10px';
-        c.style.height = '10px';
-        c.style.background = ['#ff9ff3','#feca57','#54a0ff','#48dbfb'][Math.floor(Math.random()*4)];
-        c.style.top = Math.random()*100 + 'vh';
-        c.style.left = Math.random()*100 + 'vw';
-        c.style.opacity = 0.8;
-        c.style.borderRadius = '50%';
-        c.style.transform = 'rotate(' + Math.random()*360 + 'deg)';
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = ['#ff5252','#ffdd59','#1dd1a1','#54a0ff'][Math.floor(Math.random()*4)];
+        c.style.animationDelay = Math.random() + 's';
         document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3000);
+        setTimeout(() => c.remove(), 3500);
       }
     }
   </script>
