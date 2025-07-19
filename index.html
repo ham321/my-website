@@ -3,135 +3,262 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
+  <title>🎉 Laura’s 23rd Birthday Spectacular! 🎂🎆</title>
   <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    /* ================== Root Variables ================== */
     :root {
-      --bg: #fff8e1;
-      --primary: #d32f2f;
-      --accent: #ff7043;
-      --text: #333;
+      --day-bg: linear-gradient(to bottom, #87ceeb, #fff8e1);
+      --night-bg: linear-gradient(to bottom, #0d1b2a, #1b263b);
+      --primary-color: #d32f2f;
+      --accent-color: #ff7043;
+      --text-day: #333;
+      --text-night: #f0f0f0;
       --confetti-colors: #f44336, #ffeb3b, #8bc34a, #03a9f4;
-      --balloon-colors: #ff4081, #7c4dff, #448aff, #40c4ff;
-      --star-size: 6px;
+      --star-size: 4px;
+      --float-img-count: 8;
+      --hat-color: #ffeb3b;
+      --hat-border: #d32f2f;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ================== Global Reset ================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--day-bg);
+      color: var(--text-day);
       font-family: 'Comic Neue', cursive, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-      text-align: center;
-      position: relative;
       overflow: hidden;
+      position: relative;
+      transition: background 1s, color 1s;
     }
+
+    /* =========== Full-screen Birthday Backdrop =========== */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('IMG_2831.png') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    body.night {
+      background: var(--night-bg);
+      color: var(--text-night);
+    }
+
+    /* ================== Banner & Header ================== */
+    .date-banner {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent-color);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: var(--primary-color);
+      margin: 4rem 1rem 1rem;
+      text-shadow: 2px 2px rgba(0,0,0,0.1);
+      animation: pulse 1s infinite alternate;
+      text-align: center;
+      z-index: 10;
+    }
+    @keyframes pulse {
+      from { opacity: 0.7; }
+      to   { opacity: 1; }
+    }
+    p.subtitle {
+      text-align: center;
+      margin: 0 1rem 2rem;
+      font-size: 1rem;
+      z-index: 10;
+    }
+
+    /* ================== Reveal Text ================== */
+    #reveal {
+      margin: 1rem auto;
+      max-width: 90vw;
+      font-size: 1.1rem;
+      opacity: 0;
+      transition: opacity 0.8s;
+      white-space: pre-line;
+      text-align: center;
+      z-index: 10;
+    }
+
+    /* ================== Central Image & Hats ================== */
+    #staticImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 180px;
+      border: 4px solid var(--accent-color);
+      border-radius: 12px;
+      z-index: 10;
+    }
+    .party-hat {
+      position: absolute;
+      width: 60px;
+      height: 80px;
+      background: var(--hat-color);
+      border-left: 4px solid var(--hat-border);
+      border-top: 4px solid var(--hat-border);
+      transform: rotate(-25deg);
+      border-radius: 4px;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    /* ============ Floating & Spinning Images ============ */
+    .float-img {
+      position: absolute;
+      max-width: 80px;
+      border: 3px solid var(--accent-color);
+      border-radius: 12px;
+      animation: floatAnim 5s ease-in-out infinite, spin 4s linear infinite;
+      z-index: 5;
+    }
+    @keyframes floatAnim {
+      0%,100% { transform: translateY(0); }
+      50%    { transform: translateY(-15px); }
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* ================== Fireworks Canvas ================== */
     canvas#fwCanvas {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 2;
     }
-    h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: var(--primary);
-      text-shadow: 2px 2px rgba(0,0,0,0.1);
-      animation: pulse 1s infinite alternate;
-      margin-bottom: 0.5rem;
-      z-index: 10;
-    }
-    @keyframes pulse { from { color: var(--primary);} to { color: #f44336; }}
-    p { font-size: 1.1rem; max-width: 90vw; margin: 0.5rem 0 1.5rem; line-height: 1.5; z-index: 10; }
-    #reveal { margin-top: 2rem; font-size: 1.2rem; opacity: 0; transition: opacity 0.8s; white-space: pre-line; color: #444; z-index: 10; }
-    #surpriseImage { margin-top: 2rem; max-width: 90vw; max-height: 300px; border: 6px dashed var(--accent); border-radius: 16px; box-shadow: 0 6px 12px rgba(255,112,67,0.4); display: none; transform: rotate(-5deg); transition: transform 0.3s; z-index: 10; }
-    #surpriseImage:hover { transform: rotate(5deg) scale(1.05); cursor: pointer; }
-    .confetti, .star, .balloon { position: fixed; pointer-events: none; z-index: 1; opacity: 0.8; }
-    @keyframes drop { from { transform: translateY(-20vh) rotate(0deg);} to { transform: translateY(110vh) rotate(360deg);} }
-    @keyframes floatUp { from { transform: translateY(110vh) scale(0.5);} to { transform: translateY(-20vh) scale(1);} }
-    @keyframes twinkle { 0%,100% { opacity: 0.2;} 50% { opacity: 0.8;} }
-    .star { width: var(--star-size); height: var(--star-size); background: #fff; border-radius: 50%; animation: twinkle 2s infinite ease-in-out; }
-    .balloon { width: 24px; height: 32px; background: red; border-radius: 50%; }
+
   </style>
 </head>
 <body>
+
+  <div class="date-banner">July 19 🎂</div>
   <canvas id="fwCanvas"></canvas>
-  <h1>🎂 Laura, Your Secret Spotlight Awaits!</h1>
-  <p>From your brother with all the love—and a bang! 💥</p>
+
+  <h1>🎉 Laura’s 23rd Birthday Spectacular! 🎉</h1>
+  <p class="subtitle">A silly surprise from your crazy brother—get ready to laugh!</p>
   <div id="reveal" role="status"></div>
-  <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" loading="lazy" />
+
+  <!-- Central Portrait -->
+  <img id="staticImage" src="IMG_2831.png" alt="Laura's Portrait">
+
+  <!-- Party Hats above portrait -->
+  <div id="hat1" class="party-hat"></div>
+  <div id="hat2" class="party-hat" style="top: calc(50% - 60px); left: calc(50% + 40px); transform: rotate(15deg);"></div>
+
+  <!-- Floating images container -->
+  <div id="floatContainer"></div>
+
+  <!-- Background music -->
   <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" autoplay preload="auto" loop></audio>
+
   <script>
-    const txt = document.getElementById('reveal');
-    const img = document.getElementById('surpriseImage');
-    const sfx = document.getElementById('sfx');
+    // ======= Day/Night toggle =======
+    setInterval(() => document.body.classList.toggle('night'), 5000);
+
+    // ======= Floating & Spinning Dupes =======
+    const floatCount = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--float-img-count'));
+    const container = document.getElementById('floatContainer');
+    for (let i = 0; i < floatCount; i++) {
+      let img = document.createElement('img');
+      img.src = 'IMG_2831.png';
+      img.className = 'float-img';
+      positionRandom(img);
+      container.appendChild(img);
+      setInterval(() => positionRandom(img), 5000 + Math.random()*3000);
+    }
+    function positionRandom(el) {
+      el.style.top = Math.random()*80 + 'vh';
+      el.style.left = Math.random()*80 + 'vw';
+    }
+
+    // ======= Fireworks Particle System =======
     const canvas = document.getElementById('fwCanvas');
     const ctx = canvas.getContext('2d');
     let W, H;
-    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resize);
-    resize();
+    function resizeCanvas() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     class Particle {
       constructor(x, y, color) {
-        this.x = x; this.y = y;
-        this.vx = (Math.random()-0.5)*4;
-        this.vy = (Math.random()-0.5)*4;
-        this.alpha = 1; this.size = 2 + Math.random()*3;
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 4;
+        this.vy = (Math.random() - 0.5) * 4;
+        this.alpha = 1;
+        this.size = 2 + Math.random() * 3;
         this.color = color;
       }
       update() {
-        this.x += this.vx; this.y += this.vy;
-        this.vy += 0.05; this.alpha -= 0.02;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.05;
+        this.alpha -= 0.02;
       }
       draw() {
         ctx.globalAlpha = this.alpha;
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     let particles = [];
     function shootFirework() {
-      const x = Math.random()*W;
-      const y = Math.random()*H*0.5;
-      const colors = getComputedStyle(document.documentElement).getPropertyValue('--confetti-colors').split(',');
-      for (let i=0; i<100; i++) {
-        particles.push(new Particle(x, y, colors[i%colors.length]));
+      const x = Math.random() * W;
+      const y = Math.random() * H * 0.5;
+      const cols = getComputedStyle(document.documentElement).getPropertyValue('--confetti-colors').split(',');
+      for (let i = 0; i < 80; i++) {
+        particles.push(new Particle(x, y, cols[i % cols.length]));
       }
     }
     function animate() {
-      ctx.clearRect(0,0,W,H);
-      particles.forEach((p,i)=>{
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach((p, idx) => {
         p.update(); p.draw();
-        if (p.alpha <= 0) particles.splice(i,1);
+        if (p.alpha <= 0) particles.splice(idx, 1);
       });
       requestAnimationFrame(animate);
     }
     animate();
 
+    // ======= Reveal Sequence =======
     window.addEventListener('load', () => {
-      sfx.play().catch(()=>{});
-      trigger();
+      const txt = document.getElementById('reveal');
+      txt.textContent = '👏 Let the hilarity begin! 👏\n🎶 Happy Birthday, Laura—July 19! 🎶';
+      txt.style.opacity = 1;
+      for (let i = 0; i < 12; i++) setTimeout(shootFirework, i * 700);
     });
 
-    function trigger() {
-      txt.textContent = `👏 You Rocked It! 👏\n🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
-      txt.style.opacity = '1';
-      img.style.display = 'block';
-      // Confetti, stars, balloons omitted for brevity
-      // Fireworks
-      for (let i=0; i<5; i++) {
-        setTimeout(shootFirework, i*600);
-      }
-    }
   </script>
 </body>
 </html>
