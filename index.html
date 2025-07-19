@@ -2,77 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>💳 FunPay™ Fake Checkout</title>
+  <title>🎉 Happy Birthday, Laura! 🎂</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    /* Page reset & styling */
+    * { margin:0; padding:0; box-sizing:border-box }
     body {
-      background: #f0f8ff;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .checkout {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      padding: 2rem;
-      width: 320px;
+      background: linear-gradient(to bottom, #ffefba, #ffffff);
+      overflow: hidden;
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
       text-align: center;
+      height: 100vh;
     }
-    .checkout h1 {
-      margin-bottom: 1rem;
-      color: #333;
+
+    /* Header text */
+    h1 {
+      font-size: 3rem;
+      margin-top: 2rem;
+      color: #ff4081;
+      text-shadow: 2px 2px #ffe082;
+      animation: popIn 1s ease-out forwards;
+      opacity: 0;
     }
-    .checkout input {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
+    @keyframes popIn {
+      to { opacity:1; transform: scale(1); }
+      from { opacity:0; transform: scale(0.5); }
     }
-    .checkout button {
-      background: #ff6f61;
-      color: #fff;
+
+    /* Balloon container */
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px; height: 80px;
+      border-radius: 50% 50% 50% 50%;
+      opacity: 0.8;
+      animation: rise 8s infinite ease-in;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0) scale(0.8); }
+      100% { transform: translateY(-120vh) scale(1); }
+    }
+
+    /* Strings */
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: 50%;
+      width: 2px; height: 60px;
+      background: #555;
+    }
+
+    /* Colors */
+    .red    { background: #ff5252; }
+    .blue   { background: #448aff; }
+    .green  { background: #69f0ae; }
+    .yellow { background: #ffff00; }
+    .purple { background: #e040fb; }
+
+    /* Confetti pieces */
+    .confetti {
+      position: absolute;
+      width: 8px; height: 8px;
+      background: #ff4081;
+      opacity: 0.9;
+      animation: fall 3s infinite ease-in;
+    }
+    @keyframes fall {
+      0%   { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(360deg); }
+    }
+
+    /* Button */
+    button {
+      margin-top: 2rem;
+      padding: 0.8rem 1.6rem;
+      font-size: 1.2rem;
       border: none;
-      padding: 0.8rem;
-      width: 100%;
-      border-radius: 6px;
-      font-size: 1.1rem;
+      border-radius: 8px;
+      background: #ff4081;
+      color: white;
       cursor: pointer;
-      transition: background 0.2s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
     }
-    .checkout button:hover {
-      background: #ff453a;
-    }
-    .disclaimer {
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      color: #666;
-    }
+    button:hover { transform: scale(1.1); }
   </style>
 </head>
 <body>
-  <form class="checkout" id="fakePaymentForm">
-    <h1>FunPay™ Checkout</h1>
-    <input type="text" name="name" placeholder="Name on Card" required />
-    <input type="text" name="card" placeholder="Card Number" maxlength="19" required />
-    <div style="display: flex; gap: 0.5rem;">
-      <input type="text" name="expiry" placeholder="MM/YY" maxlength="5" required style="flex:1;" />
-      <input type="text" name="cvv" placeholder="CVV" maxlength="3" required style="flex:1;" />
-    </div>
-    <button type="submit">💰 Pay $99.99</button>
-    <p class="disclaimer">No real charges will be made—this is just for fun!</p>
-  </form>
+  <h1 id="greet">🎉 Happy Birthday, Laura! 🎉</h1>
+  <button onclick="launchConfetti()">Make a Wish!</button>
 
   <script>
-    document.getElementById('fakePaymentForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert("🎉 Congratulations! You've successfully made a payment... in our imaginations. 🃏");
-    });
+    // Create balloons at random positions
+    const colors = ['red','blue','green','yellow','purple'];
+    for(let i=0; i<15; i++){
+      const b = document.createElement('div');
+      b.className = 'balloon ' + colors[i % colors.length];
+      b.style.left = Math.random() * 90 + 'vw';
+      b.style.animationDelay = (Math.random()*5) + 's';
+      b.style.animationDuration = (6 + Math.random()*4) + 's';
+      document.body.appendChild(b);
+    }
+
+    // Confetti burst function
+    function launchConfetti(){
+      for(let i=0; i<100; i++){
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = colors[Math.floor(Math.random()*colors.length)];
+        c.style.animationDelay = Math.random() + 's';
+        c.style.animationDuration = (2 + Math.random()*2) + 's';
+        document.body.appendChild(c);
+        // Remove confetti after animation
+        setTimeout(() => c.remove(), 4000);
+      }
+      alert("🎂 Make a wish, Laura! 🎂");
+    }
   </script>
 </body>
 </html>
