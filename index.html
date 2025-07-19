@@ -36,6 +36,22 @@
       font-size: 100px;
       cursor: pointer;
       transition: transform 0.2s;
+      position: relative;
+    }
+
+    #gift:hover::after {
+      content: "Seriously, click me. I’m not suspicious at all. 😉";
+      position: absolute;
+      bottom: -2.5em;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff0f6;
+      color: #b30059;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 0.9em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      white-space: nowrap;
     }
 
     #gift:hover {
@@ -91,8 +107,8 @@
 <body>
   <div class="center">
     <h1>🎂 Happy 23rd, Laura! 🎉</h1>
-    <p>I hope this e-gift makes you a *lot* happier 😄</p>
-    <p>Click the magical gift below to open it... if you dare 🎁✨</p>
+    <p>Your incredibly generous brother has crafted something mysterious and delightful for you.</p>
+    <p>Click the magical gift below to reveal the surprise... 🎁✨</p>
     <div id="gift">🎁</div>
   </div>
 
