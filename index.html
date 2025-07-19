@@ -2,114 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #fff8e1;
-      --primary: #d32f2f;
-      --accent: #ff7043;
-      --text: #333;
-      --confetti-colors: #f44336, #ffeb3b, #8bc34a, #03a9f4;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Comic Neue', cursive, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: #ffe8f0;
+      font-family: sans-serif;
       overflow: hidden;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
-      position: relative;
-      padding: 1rem;
     }
-    h1 {
-      font-size: clamp(2rem,5vw,3rem);
-      color: var(--primary);
-      animation: pulse 1s infinite alternate, sway 4s infinite ease-in-out;
-      margin-bottom: .5rem;
-    }
-    @keyframes pulse { from{color:var(--primary)} to{color:#f44336} }
-    @keyframes sway { 0%,100%{transform:rotate(0)} 50%{transform:rotate(3deg)} }
-    p {
-      font-size:1.1rem;
-      max-width:90vw;
-      margin-bottom:1.5rem;
-      line-height:1.5;
-      animation:fadeIn 1.5s ease-out;
-    }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
     #gift {
-      font-size:8rem;
-      cursor:pointer;
-      transition: transform .3s;
-      user-select: none;
+      font-size: 100px;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
-    #gift:hover { transform: scale(1.2) rotate(10deg); }
-    img#present {
-      display:none;
-      width:90vw;
-      max-width:400px;
-      height:auto;
-      margin-top:2rem;
-      border:5px dashed var(--accent);
-      border-radius:16px;
-      box-shadow:0 8px 16px rgba(255,112,67,.4);
-      animation:pop 0.8s ease-out;
+
+    #gift:hover {
+      transform: scale(1.2);
     }
-    @keyframes pop {
-      0%{transform:scale(.5) rotate(-10deg);opacity:0}
-      60%{transform:scale(1.1) rotate(5deg);opacity:1}
-      100%{transform:scale(1) rotate(0)}
+
+    #imageModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
     }
-    .confetti { position:fixed; width:8px;height:8px;
-      border-radius:50%;opacity:.9;
-      animation:drop 3s linear infinite;
-      pointer-events:none;
+
+    #imageModal img {
+      width: 95vw;
+      height: auto;
+      max-height: 95vh;
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
     }
-    @keyframes drop {
-      0%{transform:translateY(-10vh) rotate(0)}
-      100%{transform:translateY(110vh) rotate(360deg)}
+
+    #imageModal.hidden {
+      display: none;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      opacity: 0.7;
+      animation: fall 5s infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🎂 Laura, Prepare for Epicness!</h1>
-  <p>Tap the gift below to reveal your surprise and cue the tune!</p>
-  <div id="gift">🎁</div>
-  <img id="present" src="IMG_2831.png" alt="Birthday Present" />
-  <audio id="bgMusic" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio></audio>
+  <div class="center">
+    <div id="gift">🎁</div>
+  </div>
+
+  <div id="imageModal" class="hidden">
+    <img src="IMG_2831.png" alt="Birthday Surprise" />
+  </div>
+
+  <audio id="bgMusic" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
 
   <script>
-    // Confetti loop
-    function shower(){
-      const colors = getComputedStyle(document.documentElement)
-        .getPropertyValue('--confetti-colors').split(',');
-      const c = document.createElement('div');
-      c.className='confetti';
-      c.style.left = `${Math.random()*100}vw`;
-      c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration = `${(2+Math.random()*2).toFixed(1)}s`;
-      document.body.appendChild(c);
-      setTimeout(()=>c.remove(),4000);
-    }
-    setInterval(shower,150);
-
-    // Reveal present & play music on click
     const gift = document.getElementById('gift');
-    const present = document.getElementById('present');
-    const bgMusic = document.getElementById('bgMusic');
+    const music = document.getElementById('bgMusic');
+    const modal = document.getElementById('imageModal');
 
-    gift.addEventListener('click',()=>{
-      present.style.display = 'block';
-      bgMusic.currentTime = 0;
-      bgMusic.play();
+    gift.addEventListener('click', () => {
+      modal.classList.remove('hidden');
+      music.play();
     });
+
+    modal.addEventListener('click', () => {
+      modal.classList.add('hidden');
+      music.pause();
+      music.currentTime = 0;
+    });
+
+    // Generate confetti
+    for (let i = 0; i < 100; i++) {
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = `${Math.random() * 100}vw`;
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
+      document.body.appendChild(confetti);
+    }
   </script>
 </body>
 </html>
