@@ -66,7 +66,7 @@
     }
     button:hover:not(:disabled) {
       background: #ff5722;
-      transform: scale(1.05);
+      transform: scale(1.05) rotate(-1deg);
     }
     button:disabled {
       opacity: 0.6;
@@ -95,8 +95,13 @@
       transition: transform 0.3s ease;
     }
     #surpriseImage:hover {
-      transform: rotate(5deg) scale(1.05);
+      transform: rotate(5deg) scale(1.1) translateY(-5px);
       cursor: pointer;
+      animation: wobble 0.5s ease-in-out;
+    }
+    @keyframes wobble {
+      0%,100% { transform: rotate(5deg) scale(1.1) translateY(-5px); }
+      50% { transform: rotate(-5deg) scale(1.1) translateY(5px); }
     }
     .confetti {
       position: fixed;
@@ -115,67 +120,94 @@
 </head>
 <body>
 
-  <h1>🎂 Laura, Your Secret Spotlight Awaits!</h1>
-  <p>To celebrate your 23rd, it's time to reveal that little performance you give when nobody's around…</p>
+  <h1>🎂 Laura, Prepare for Epicness!</h1>
+  <p>Slide up your volume, hit the “Shine On!” button, and brace yourself for maximum goofiness.</p>
   <div class="controls">
     <button id="goBtn" aria-pressed="false">✨ Shine On! ✨</button>
-    <button id="muteBtn">🔇 Mute</button>
-    <label for="volumeRange" class="sr-only">Volume</label>
+    <button id="muteBtn">🔇 Mute All the Fun</button>
     <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="0.5">
   </div>
 
   <div id="reveal" role="status"></div>
   <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" loading="lazy" />
-  <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto" loop></audio>
+  
+  <!-- Sounds: main birthday tune, drumroll, crowd cheer, boing -->
+  <audio id="mainSfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto" loop></audio>
+  <audio id="drumroll" src="drumroll.mp3" preload="auto"></audio>
+  <audio id="cheer" src="crowd-cheer.mp3" preload="auto"></audio>
+  <audio id="boing" src="boing-spring.mp3" preload="auto"></audio>
 
   <script>
-    const btn = document.getElementById('goBtn');
-    const muteBtn = document.getElementById('muteBtn');
-    const volumeRange = document.getElementById('volumeRange');
-    const txt = document.getElementById('reveal');
-    const sfx = document.getElementById('sfx');
-    const img = document.getElementById('surpriseImage');
+    const goBtn      = document.getElementById('goBtn');
+    const muteBtn    = document.getElementById('muteBtn');
+    const volumeRange= document.getElementById('volumeRange');
+    const revealText = document.getElementById('reveal');
+    const img        = document.getElementById('surpriseImage');
+    const mainSfx    = document.getElementById('mainSfx');
+    const drumroll   = document.getElementById('drumroll');
+    const cheer      = document.getElementById('cheer');
+    const boing      = document.getElementById('boing');
 
     // Set initial volume
-    sfx.volume = volumeRange.value;
+    [mainSfx, drumroll, cheer, boing].forEach(a => a.volume = volumeRange.value);
 
-    volumeRange.addEventListener('input', (e) => {
-      sfx.volume = e.target.value;
+    // Volume slider
+    volumeRange.addEventListener('input', e => {
+      [mainSfx, drumroll, cheer, boing].forEach(a => a.volume = e.target.value);
     });
 
+    // Mute toggle
     muteBtn.addEventListener('click', () => {
-      sfx.muted = !sfx.muted;
-      muteBtn.textContent = sfx.muted ? '🔈 Unmute' : '🔇 Mute';
+      [mainSfx, drumroll, cheer, boing].forEach(a => a.muted = !a.muted);
+      muteBtn.textContent = mainSfx.muted ? '🔈 Unmute the Party' : '🔇 Mute All the Fun';
     });
 
-    btn.addEventListener('click', () => {
-      // Play audio (on user interaction)
-      sfx.play();
+    // Main button action
+    goBtn.addEventListener('click', async () => {
+      // Drumroll then main melody
+      drumroll.play();
+      setTimeout(() => {
+        mainSfx.play();
+        cheer.play();
+      }, 2000);
 
-      // Reveal text
-      txt.textContent = `👏 You Rocked It! 👏\n🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
-      txt.style.opacity = '1';
+      // Reveal cheeky text
+      revealText.textContent = 
+        "🎉 Surprise! 🎉\n" +
+        "Laura, we all know you've been practicing your karaoke moves in the shower…\n" +
+        "But today, you get your *official* spotlight! 💃🕺\n" +
+        "Take a bow, superstar—and don’t forget the afterparty dance-offs!";
+      revealText.style.opacity = '1';
 
-      // Show image
+      // Show and animate image
       img.style.display = 'block';
+      img.classList.add('wobble');
 
-      // Confetti
+      // More confetti!
       const colors = getComputedStyle(document.documentElement)
-        .getPropertyValue('--confetti-colors').split(',');
-      for (let i = 0; i < 60; i++) {
+                        .getPropertyValue('--confetti-colors').split(',');
+      for (let i = 0; i < 80; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = `${Math.random() * 100}vw`;
         c.style.background = colors[Math.floor(Math.random() * colors.length)];
-        c.style.animationDelay = `${(Math.random()).toFixed(2)}s`;
+        c.style.animationDelay = `${Math.random().toFixed(2)}s`;
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 3500);
       }
 
       // Disable button
-      btn.disabled = true;
-      btn.setAttribute('aria-pressed', 'true');
-      btn.textContent = "👏 You Rocked It! 👏";
+      goBtn.disabled = true;
+      goBtn.setAttribute('aria-pressed', 'true');
+      goBtn.textContent = "🏆 Bravo! 🏆";
+    });
+
+    // Make the image play a boing on click
+    img.addEventListener('click', () => {
+      boing.currentTime = 0;
+      boing.play();
+      img.style.transform = 'rotate(360deg) scale(1.2)';
+      setTimeout(() => img.style.transform = 'rotate(0deg) scale(1)', 600);
     });
   </script>
 </body>
