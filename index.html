@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
-  <!-- Comic Neue for maximum silliness -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -23,9 +22,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
       overflow: hidden;
       text-align: center;
+      position: relative;
     }
     h1 {
       font-size: clamp(2rem, 5vw, 3rem);
@@ -34,164 +34,72 @@
       animation: pulse 1s infinite alternate, sway 4s infinite ease-in-out;
       margin-bottom: 0.5rem;
     }
-    @keyframes pulse {
-      from { color: var(--primary); }
-      to   { color: #f44336; }
-    }
-    @keyframes sway {
-      0%,100% { transform: rotate(0deg); }
-      50%     { transform: rotate(3deg); }
-    }
-    p {
-      font-size: 1.1rem;
-      max-width: 90vw;
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-      animation: fadeIn 1.5s ease-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .controls {
-      margin-bottom: 2rem;
-    }
-    button {
-      font-family: inherit;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      background: var(--accent);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 6px 8px rgba(0,0,0,0.2);
-      animation: bounce 2s infinite;
-      transition: background 0.3s, transform 0.3s;
-    }
-    button:hover {
-      background: #ff5722;
-      transform: scale(1.1);
-    }
-    @keyframes bounce {
-      0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-10px); }
-    }
-    #reveal {
-      font-size: 1.3rem;
-      color: #444;
-      white-space: pre-line;
-      opacity: 0;
-    }
-    .slide-in {
-      animation: slideUp 1s forwards;
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    #surpriseImage {
-      display: none;
-      max-width: 60vw;
-      border: 5px dashed var(--accent);
-      border-radius: 16px;
-      box-shadow: 0 8px 16px rgba(255,112,67,0.4);
-    }
-    .floating {
-      display: block;
-      animation: float 3s ease-in-out infinite;
-      margin-top: 2rem;
-    }
-    @keyframes float {
-      0%,100%   { transform: translateY(0) rotate(0deg); }
-      25%       { transform: translateY(-10px) rotate(2deg); }
-      50%       { transform: translateY(0) rotate(0deg); }
-      75%       { transform: translateY(-10px) rotate(-2deg); }
-    }
-    .confetti {
-      position: fixed;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      opacity: 0.9;
-      animation: drop 3s linear infinite;
-      pointer-events: none;
-      z-index: 9999;
-    }
-    @keyframes drop {
-      0%   { transform: translateY(-10vh) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(360deg); }
-    }
+    @keyframes pulse { from { color: var(--primary); } to { color: #f44336; } }
+    @keyframes sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(3deg); } }
+    p { font-size: 1.1rem; max-width: 90vw; margin-bottom: 1.5rem; line-height: 1.5; animation: fadeIn 1.5s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .controls { margin-bottom: 2rem; }
+    button { font-family: inherit; padding: 1rem 2rem; font-size: 1.2rem; background: var(--accent); border: none; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 6px 8px rgba(0,0,0,0.2); animation: bounce 2s infinite; transition: background 0.3s, transform 0.3s; }
+    button:hover:not(:disabled) { background: #ff5722; transform: scale(1.1); }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    #reveal { font-size: 1.3rem; color: #444; white-space: pre-line; opacity: 0; }
+    .slide-in { animation: slideUp 1s forwards; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    #gift { display: none; font-size: 8rem; margin: 2rem; opacity: 0; transform: scale(0.5); transition: opacity 1s ease, transform 1s ease; }
+    #gift.show { display: block; opacity: 1; transform: scale(1) rotate(0deg); animation: pop 0.8s ease-out; }
+    @keyframes pop { 0% { transform: scale(0.5) rotate(-10deg); opacity: 0; } 60% { transform: scale(1.1) rotate(5deg); opacity: 1; } 100% { transform: scale(1) rotate(0deg); } }
+    .confetti { position: fixed; width: 8px; height: 8px; border-radius: 50%; opacity: 0.9; animation: drop 3s linear infinite; pointer-events: none; z-index: 9999; }
+    @keyframes drop { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(110vh) rotate(360deg); } }
   </style>
 </head>
 <body>
-
   <h1>🎂 Laura, Prepare for Epicness!</h1>
-  <p>Get ready: one button for all the fun—no distractions. Let’s roll!</p>
+  <p>One button, endless fun—no extra files needed. Let’s do this!</p>
   <div class="controls">
     <button id="playBtn">▶️ Let’s Party!</button>
   </div>
-
   <div id="reveal"></div>
-  <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" loading="lazy" />
-
-  <!-- Audio -->
-  <audio id="drumroll" src="drumroll.mp3"></audio>
-  <audio id="mainTune" src="sound-effect-happy-birthday-music-box-333245.mp3" loop></audio>
-  <audio id="cheer" src="crowd-cheer.mp3"></audio>
-  <audio id="boing" src="boing-spring.mp3"></audio>
-
+  <div id="gift">🎁</div>
   <script>
-    const playBtn    = document.getElementById('playBtn');
-    const revealDiv  = document.getElementById('reveal');
-    const img        = document.getElementById('surpriseImage');
-    const drumroll   = document.getElementById('drumroll');
-    const mainTune   = document.getElementById('mainTune');
-    const cheer      = document.getElementById('cheer');
-    const boing      = document.getElementById('boing');
-
-    // endless confetti generator
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioCtx();
+    function playTone(freq, duration, type='sine', when=0) {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = type; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.2, audioCtx.currentTime + when);
+      o.start(audioCtx.currentTime + when);
+      o.stop(audioCtx.currentTime + when + duration);
+    }
+    function playMelody() {
+      // simple birthday melody: Happy Birthday snippet
+      const notes = [264,264,297,264,352,330]; // frequencies
+      notes.forEach((n,i) => playTone(n, 0.3, 'triangle', i*0.35));
+    }
+    const playBtn = document.getElementById('playBtn');
+    const reveal = document.getElementById('reveal');
+    const gift = document.getElementById('gift');
     function shower() {
-      const colors = getComputedStyle(document.documentElement)
-                         .getPropertyValue('--confetti-colors').split(',');
-      const c = document.createElement('div');
-      c.className = 'confetti';
+      const colors = getComputedStyle(document.documentElement).getPropertyValue('--confetti-colors').split(',');
+      const c = document.createElement('div'); c.className='confetti';
       c.style.left = `${Math.random()*100}vw`;
       c.style.background = colors[Math.floor(Math.random()*colors.length)];
-      c.style.animationDuration = `${(2 + Math.random()*2).toFixed(1)}s`;
+      c.style.animationDuration = `${(2+Math.random()*2).toFixed(1)}s`;
       document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4000);
+      setTimeout(()=>c.remove(),4000);
     }
-    setInterval(shower, 100);
-
+    setInterval(shower, 150);
+    window.addEventListener('load', () => { audioCtx.resume(); });
     playBtn.addEventListener('click', () => {
-      // cinematic intro
-      drumroll.play();
-      setTimeout(() => {
-        mainTune.play();
-        cheer.play();
-      }, 2000);
-
-      // reveal text
-      revealDiv.textContent =
-        "🎉 Surprise! 🎉\n" +
-        "Laura, your shower‑karaoke legend is now official!\n" +
-        "Take your bow, dance like nobody's watching,\n" +
-        "and own this spotlight! 💃🕺";
-      revealDiv.classList.add('slide-in');
-
-      // show & float the image
-      img.classList.add('floating');
-
-      // swap button to “Bravo!”
+      playMelody();
+      reveal.textContent = "🎉 Surprise! 🎉\nLaura, your epic gift is here—unwrap below!";
+      reveal.classList.add('slide-in');
+      setTimeout(() => gift.classList.add('show'), 1200);
       playBtn.disabled = true;
       playBtn.textContent = "👏 Bravo! 👏";
     });
-
-    // boing on image click
-    img.addEventListener('click', () => {
-      boing.currentTime = 0;
-      boing.play();
-    });
+    gift.addEventListener('click', () => playTone(440,0.2,'square'));
   </script>
 </body>
 </html>
