@@ -16,6 +16,8 @@
       height: 100vh;
       text-align: center;
       color: #333;
+      overflow-x: hidden;
+      padding: 1rem;
     }
     h1 {
       font-size: 2.75rem;
@@ -44,9 +46,13 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       transition: background 0.2s, transform 0.2s;
     }
-    button:hover {
+    button:hover:not(:disabled) {
       background: #ff5722;
       transform: scale(1.05);
+    }
+    button:disabled {
+      cursor: default;
+      opacity: 0.7;
     }
     #reveal {
       margin-top: 2rem;
@@ -54,6 +60,23 @@
       opacity: 0;
       transition: opacity 0.8s ease-in;
       max-width: 360px;
+      white-space: pre-line;
+      color: #444;
+    }
+    #surpriseImage {
+      margin-top: 2rem;
+      max-width: 300px;
+      border: 8px dashed #ff7043;
+      border-radius: 20px;
+      box-shadow: 0 6px 12px rgba(255,112,67,0.6);
+      display: none;
+      user-select: none;
+      transform: rotate(-5deg);
+      transition: transform 0.3s ease;
+    }
+    #surpriseImage:hover {
+      transform: rotate(5deg) scale(1.05);
+      cursor: pointer;
     }
     .confetti {
       position: fixed;
@@ -61,6 +84,8 @@
       border-radius: 50%;
       opacity: 0.9;
       animation: drop 3s ease-in forwards;
+      pointer-events: none;
+      z-index: 9999;
     }
     @keyframes drop {
       from { transform: translateY(-20vh) rotate(0deg); }
@@ -74,44 +99,46 @@
   <p>To celebrate your 23rd, it's time to reveal that little performance you give when nobody's around…</p>
   <button id="goBtn">✨ Shine On! ✨</button>
 
-  <div id="reveal">
-    🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶
-  </div>
+  <div id="reveal"></div>
 
-  <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto"></audio>
+  <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" />
+
+  <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto" loop></audio>
 
   <script>
     const btn = document.getElementById('goBtn');
     const txt = document.getElementById('reveal');
     const sfx = document.getElementById('sfx');
+    const img = document.getElementById('surpriseImage');
+
+    // Try to autoplay music on page load (might require user interaction due to browser autoplay policies)
+    window.addEventListener('load', () => {
+      sfx.play().catch(() => {
+        // Autoplay failed (common on browsers), music will start when user interacts anyway
+      });
+    });
 
     btn.addEventListener('click', () => {
-      // ensure audio is loaded before playing
-      if (sfx.readyState >= 2) {
-        sfx.currentTime = 0;
-        sfx.play();
-      } else {
-        sfx.addEventListener('canplaythrough', () => {
-          sfx.currentTime = 0;
-          sfx.play();
-        }, { once: true });
-      }
-
-      // reveal the message
+      // Reveal text with line breaks exactly as requested
+      txt.textContent = `👏 You Rocked It! 👏
+🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
       txt.style.opacity = '1';
 
-      // sprinkle confetti
+      // Reveal the image
+      img.style.display = 'block';
+
+      // Sprinkle confetti
       for (let i = 0; i < 60; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
         c.style.left = Math.random() * 100 + 'vw';
         c.style.background = ['#f44336','#ffeb3b','#8bc34a','#03a9f4'][Math.floor(Math.random() * 4)];
-c.style.animationDelay = (Math.random().toFixed(2)) + 's';
+        c.style.animationDelay = (Math.random().toFixed(2)) + 's';
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 3500);
       }
 
-      // lock the button
+      // Lock the button and update text
       btn.disabled = true;
       btn.textContent = "👏 You Rocked It! 👏";
     });
