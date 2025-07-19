@@ -4,7 +4,69 @@
   <meta charset="UTF-8" />
   <title>🎉 Laura’s 23rd Birthday Surprise Spotlight! 🌟</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background: #fff8e1;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      color: #333;
+    }
+    h1 {
+      font-size: 2.75rem;
+      margin-bottom: 0.5rem;
+      color: #d32f2f;
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { color: #d32f2f; }
+      to   { color: #f44336; }
+    }
+    p {
+      font-size: 1.1rem;
+      max-width: 360px;
+      margin: 0.5rem 1rem 1.5rem;
+      line-height: 1.4;
+    }
+    button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      background: #ff7043;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+      transition: background 0.2s, transform 0.2s;
+    }
+    button:hover {
+      background: #ff5722;
+      transform: scale(1.05);
+    }
+    #reveal {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      opacity: 0;
+      transition: opacity 0.8s ease-in;
+      max-width: 360px;
+    }
+    .confetti {
+      position: fixed;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      opacity: 0.9;
+      animation: drop 3s ease-in forwards;
+    }
+    @keyframes drop {
+      from { transform: translateY(-20vh) rotate(0deg); }
+      to   { transform: translateY(110vh) rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
@@ -18,6 +80,41 @@
 
   <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto"></audio>
 
-  <script src="script.js"></script>
+  <script>
+    const btn = document.getElementById('goBtn');
+    const txt = document.getElementById('reveal');
+    const sfx = document.getElementById('sfx');
+
+    btn.addEventListener('click', () => {
+      // ensure audio is loaded before playing
+      if (sfx.readyState >= 2) {
+        sfx.currentTime = 0;
+        sfx.play();
+      } else {
+        sfx.addEventListener('canplaythrough', () => {
+          sfx.currentTime = 0;
+          sfx.play();
+        }, { once: true });
+      }
+
+      // reveal the message
+      txt.style.opacity = '1';
+
+      // sprinkle confetti
+      for (let i = 0; i < 60; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.background = ['#f44336','#ffeb3b','#8bc34a','#03a9f4'][Math.floor(Math.random() * 4)];
+c.style.animationDelay = (Math.random().toFixed(2)) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3500);
+      }
+
+      // lock the button
+      btn.disabled = true;
+      btn.textContent = "👏 You Rocked It! 👏";
+    });
+  </script>
 </body>
 </html>
