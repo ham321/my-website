@@ -18,10 +18,15 @@
       background: var(--bg);
       color: var(--text);
       font-family: 'Comic Neue', cursive, sans-serif;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 100vh; overflow: hidden;
-      text-align: center; position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+      position: relative;
+      padding: 1rem;
     }
     h1 {
       font-size: clamp(2rem,5vw,3rem);
@@ -32,20 +37,29 @@
     @keyframes pulse { from{color:var(--primary)} to{color:#f44336} }
     @keyframes sway { 0%,100%{transform:rotate(0)} 50%{transform:rotate(3deg)} }
     p {
-      font-size:1.1rem; max-width:90vw;
-      margin-bottom:1.5rem; line-height:1.5;
+      font-size:1.1rem;
+      max-width:90vw;
+      margin-bottom:1.5rem;
+      line-height:1.5;
       animation:fadeIn 1.5s ease-out;
     }
     @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
     #gift {
-      font-size:8rem; cursor:pointer;
+      font-size:8rem;
+      cursor:pointer;
       transition: transform .3s;
+      user-select: none;
     }
     #gift:hover { transform: scale(1.2) rotate(10deg); }
     img#present {
-      display:none; max-width:60vw;
-      margin-top:2rem; border:5px dashed var(--accent);
-      border-radius:16px; box-shadow:0 8px 16px rgba(255,112,67,.4);
+      display:none;
+      width:90vw;
+      max-width:400px;
+      height:auto;
+      margin-top:2rem;
+      border:5px dashed var(--accent);
+      border-radius:16px;
+      box-shadow:0 8px 16px rgba(255,112,67,.4);
       animation:pop 0.8s ease-out;
     }
     @keyframes pop {
@@ -66,10 +80,10 @@
 </head>
 <body>
   <h1>🎂 Laura, Prepare for Epicness!</h1>
-  <p>Click the gift below to reveal your surprise!</p>
+  <p>Tap the gift below to reveal your surprise and cue the tune!</p>
   <div id="gift">🎁</div>
   <img id="present" src="IMG_2831.png" alt="Birthday Present" />
-  <audio id="bgMusic" src="sound-effect-happy-birthday-music-box-333245.mp3" autoplay></audio>
+  <audio id="bgMusic" src="sound-effect-happy-birthday-music-box-333245.mp3"></audio>
 
   <script>
     // Confetti loop
@@ -86,11 +100,15 @@
     }
     setInterval(shower,150);
 
-    // Reveal present on click
+    // Reveal present & play music on click
     const gift = document.getElementById('gift');
     const present = document.getElementById('present');
+    const bgMusic = document.getElementById('bgMusic');
+
     gift.addEventListener('click',()=>{
       present.style.display = 'block';
+      bgMusic.currentTime = 0;
+      bgMusic.play();
     });
   </script>
 </body>
