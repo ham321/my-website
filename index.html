@@ -9,8 +9,9 @@
       margin: 0;
       padding: 0;
       background: #ffe8f0;
-      font-family: sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       overflow: hidden;
+      text-align: center;
     }
 
     .center {
@@ -18,7 +19,17 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 1rem;
+      color: #d63384;
+    }
+
+    p {
+      font-size: 1.2em;
+      color: #444;
     }
 
     #gift {
@@ -37,7 +48,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -79,6 +90,9 @@
 </head>
 <body>
   <div class="center">
+    <h1>🎂 Happy 23rd, Laura! 🎉</h1>
+    <p>I hope this e-gift makes you a *lot* happier 😄</p>
+    <p>Click the magical gift below to open it... if you dare 🎁✨</p>
     <div id="gift">🎁</div>
   </div>
 
@@ -104,7 +118,7 @@
       music.currentTime = 0;
     });
 
-    // Generate confetti
+    // Confetti generator
     for (let i = 0; i < 100; i++) {
       const confetti = document.createElement('div');
       confetti.classList.add('confetti');
