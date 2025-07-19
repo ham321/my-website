@@ -1,13 +1,78 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Website</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-    <p>This is my GitHub Pages site.</p>
-    <script src="script.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>💳 FunPay™ Fake Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      background: #f0f8ff;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .checkout {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 2rem;
+      width: 320px;
+      text-align: center;
+    }
+    .checkout h1 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .checkout input {
+      width: 100%;
+      padding: 0.6rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .checkout button {
+      background: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .checkout button:hover {
+      background: #ff453a;
+    }
+    .disclaimer {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <form class="checkout" id="fakePaymentForm">
+    <h1>FunPay™ Checkout</h1>
+    <input type="text" name="name" placeholder="Name on Card" required />
+    <input type="text" name="card" placeholder="Card Number" maxlength="19" required />
+    <div style="display: flex; gap: 0.5rem;">
+      <input type="text" name="expiry" placeholder="MM/YY" maxlength="5" required style="flex:1;" />
+      <input type="text" name="cvv" placeholder="CVV" maxlength="3" required style="flex:1;" />
+    </div>
+    <button type="submit">💰 Pay $99.99</button>
+    <p class="disclaimer">No real charges will be made—this is just for fun!</p>
+  </form>
+
+  <script>
+    document.getElementById('fakePaymentForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("🎉 Congratulations! You've successfully made a payment... in our imaginations. 🃏");
+    });
+  </script>
+</body>
 </html>
