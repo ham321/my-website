@@ -2,43 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>🎉 Laura’s 23rd Birthday Surprise Spotlight! 🌟</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg: #fff8e1;
+      --primary: #d32f2f;
+      --accent: #ff7043;
+      --text: #333;
+      --confetti-colors: #f44336, #ffeb3b, #8bc34a, #03a9f4;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #fff8e1;
-      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Comic Neue', cursive, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      text-align: center;
-      color: #333;
-      overflow-x: hidden;
+      min-height: 100vh;
       padding: 1rem;
+      text-align: center;
     }
     h1 {
-      font-size: 2.75rem;
-      margin-bottom: 0.5rem;
-      color: #d32f2f;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--primary);
+      text-shadow: 2px 2px rgba(0,0,0,0.1);
       animation: pulse 1s infinite alternate;
+      margin-bottom: 0.5rem;
     }
     @keyframes pulse {
-      from { color: #d32f2f; }
+      from { color: var(--primary); }
       to   { color: #f44336; }
     }
     p {
       font-size: 1.1rem;
-      max-width: 360px;
-      margin: 0.5rem 1rem 1.5rem;
-      line-height: 1.4;
+      max-width: 90vw;
+      margin: 0.5rem 0 1.5rem;
+      line-height: 1.5;
+    }
+    .controls {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button, input[type="range"] {
+      font-family: inherit;
     }
     button {
       padding: 0.8rem 1.6rem;
       font-size: 1rem;
-      background: #ff7043;
+      background: var(--accent);
       border: none;
       border-radius: 8px;
       color: #fff;
@@ -51,26 +69,28 @@
       transform: scale(1.05);
     }
     button:disabled {
-      cursor: default;
-      opacity: 0.7;
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    input[type="range"] {
+      width: 150px;
     }
     #reveal {
       margin-top: 2rem;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       opacity: 0;
       transition: opacity 0.8s ease-in;
-      max-width: 360px;
       white-space: pre-line;
       color: #444;
     }
     #surpriseImage {
       margin-top: 2rem;
-      max-width: 300px;
-      border: 8px dashed #ff7043;
-      border-radius: 20px;
-      box-shadow: 0 6px 12px rgba(255,112,67,0.6);
+      max-width: 80vw;
+      max-height: 300px;
+      border: 6px dashed var(--accent);
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(255,112,67,0.4);
       display: none;
-      user-select: none;
       transform: rotate(-5deg);
       transition: transform 0.3s ease;
     }
@@ -80,7 +100,7 @@
     }
     .confetti {
       position: fixed;
-      width: 10px; height: 10px;
+      width: 8px; height: 8px;
       border-radius: 50%;
       opacity: 0.9;
       animation: drop 3s ease-in forwards;
@@ -97,49 +117,64 @@
 
   <h1>🎂 Laura, Your Secret Spotlight Awaits!</h1>
   <p>To celebrate your 23rd, it's time to reveal that little performance you give when nobody's around…</p>
-  <button id="goBtn">✨ Shine On! ✨</button>
+  <div class="controls">
+    <button id="goBtn" aria-pressed="false">✨ Shine On! ✨</button>
+    <button id="muteBtn">🔇 Mute</button>
+    <label for="volumeRange" class="sr-only">Volume</label>
+    <input type="range" id="volumeRange" min="0" max="1" step="0.01" value="0.5">
+  </div>
 
-  <div id="reveal"></div>
-
-  <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" />
-
+  <div id="reveal" role="status"></div>
+  <img id="surpriseImage" src="IMG_2831.png" alt="Laura's Surprise Spotlight" loading="lazy" />
   <audio id="sfx" src="sound-effect-happy-birthday-music-box-333245.mp3" preload="auto" loop></audio>
 
   <script>
     const btn = document.getElementById('goBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeRange = document.getElementById('volumeRange');
     const txt = document.getElementById('reveal');
     const sfx = document.getElementById('sfx');
     const img = document.getElementById('surpriseImage');
 
-    // Try to autoplay music on page load (might require user interaction due to browser autoplay policies)
-    window.addEventListener('load', () => {
-      sfx.play().catch(() => {
-        // Autoplay failed (common on browsers), music will start when user interacts anyway
-      });
+    // Set initial volume
+    sfx.volume = volumeRange.value;
+
+    volumeRange.addEventListener('input', (e) => {
+      sfx.volume = e.target.value;
+    });
+
+    muteBtn.addEventListener('click', () => {
+      sfx.muted = !sfx.muted;
+      muteBtn.textContent = sfx.muted ? '🔈 Unmute' : '🔇 Mute';
     });
 
     btn.addEventListener('click', () => {
-      // Reveal text with line breaks exactly as requested
-      txt.textContent = `👏 You Rocked It! 👏
-🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
+      // Play audio (on user interaction)
+      sfx.play();
+
+      // Reveal text
+      txt.textContent = `👏 You Rocked It! 👏\n🎶 *Happy Birthday, Laura! Take a bow, superstar!* 🎶`;
       txt.style.opacity = '1';
 
-      // Reveal the image
+      // Show image
       img.style.display = 'block';
 
-      // Sprinkle confetti
+      // Confetti
+      const colors = getComputedStyle(document.documentElement)
+        .getPropertyValue('--confetti-colors').split(',');
       for (let i = 0; i < 60; i++) {
         const c = document.createElement('div');
         c.className = 'confetti';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.background = ['#f44336','#ffeb3b','#8bc34a','#03a9f4'][Math.floor(Math.random() * 4)];
-        c.style.animationDelay = (Math.random().toFixed(2)) + 's';
+        c.style.left = `${Math.random() * 100}vw`;
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDelay = `${(Math.random()).toFixed(2)}s`;
         document.body.appendChild(c);
         setTimeout(() => c.remove(), 3500);
       }
 
-      // Lock the button and update text
+      // Disable button
       btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
       btn.textContent = "👏 You Rocked It! 👏";
     });
   </script>
