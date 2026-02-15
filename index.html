@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎉 Laura’s 23rd Birthday Spotlight! 🌟</title>
+  <title>💖 Happy Valentine’s Day 💌</title>
   <style>
-    /* Base reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     html, body {
       width: 100%;
       height: 100%;
-      background: #ffe8f0;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
       font-family: 'Comic Sans MS', cursive, sans-serif;
       overflow-x: hidden;
     }
+
     body {
       display: flex;
       align-items: center;
@@ -27,14 +28,16 @@
       width: 100%;
       position: relative;
     }
+
     h1 {
-      font-size: clamp(1.5rem, 5vw, 3rem);
+      font-size: clamp(1.8rem, 5vw, 3rem);
       margin-bottom: 1rem;
-      color: #d63384;
+      color: #b30059;
     }
+
     p {
       font-size: clamp(1rem, 3vw, 1.2rem);
-      color: #444;
+      color: #5a2a40;
       margin-bottom: 0.75rem;
     }
 
@@ -47,25 +50,26 @@
     }
 
     #gift:hover::after {
-      content: "Click me! Free hug inside";
+      content: "Click me! A little love awaits 💕";
       position: absolute;
       top: -2rem;
       left: 50%;
       transform: translateX(-50%);
-      background: #fff3cd;
-      color: #856404;
-      padding: 0.2rem 0.4rem;
-      border-radius: 6px;
+      background: #fff0f5;
+      color: #b30059;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
       font-size: clamp(0.6rem, 2.5vw, 0.75rem);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       white-space: nowrap;
       pointer-events: none;
     }
+
     #gift:hover {
       transform: scale(1.2);
     }
 
-    /* Modal styles */
+    /* Modal */
     #imageModal {
       position: fixed;
       inset: 0;
@@ -81,55 +85,58 @@
       opacity: 0;
       transition: opacity 0.3s ease, visibility 0.3s;
     }
+
     #imageModal.active {
       visibility: visible;
       opacity: 1;
     }
+
     #modal-caption {
-      color: #fff8dc;
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      color: #ffe6f0;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
       margin-bottom: 1rem;
       font-style: italic;
-      user-select: none;
-      text-shadow: 0 0 5px rgba(0,0,0,0.7);
+      text-shadow: 0 0 8px rgba(255,0,100,0.6);
     }
+
     #imageModal img {
       width: 90vw;
       max-width: 500px;
       height: auto;
       max-height: 80vh;
-      box-shadow: 0 0 40px rgba(255, 255, 255, 0.8);
-      border-radius: 10px;
-      user-select: none;
+      box-shadow: 0 0 40px rgba(255, 105, 180, 0.8);
+      border-radius: 12px;
     }
 
-    /* Confetti */
+    /* Floating Hearts */
     .confetti {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      opacity: 0.7;
+      font-size: 16px;
       animation: fall linear infinite;
+      opacity: 0.8;
     }
+
     @keyframes fall {
       0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
     }
+
   </style>
 </head>
 <body>
   <div class="content">
-    <h1>🎂 Happy 23rd, Laura! 🎉</h1>
-    <p>Your incredibly generous brother has crafted something mysterious and delightful for you.</p>
-    <p>Click the magical gift below to reveal the surprise... 🎁✨</p>
-    <div id="gift">🎁</div>
+    <h1>💖 Happy Valentine’s Day 💖</h1>
+    <p>Someone who cares about you wanted to send a little extra love your way today.</p>
+    <p>Tap the heart below to reveal your surprise… 💌✨</p>
+    <div id="gift">💝</div>
   </div>
 
   <div id="imageModal">
-    <p id="modal-caption">This is your free virtual hug 🤗 (no refunds!)</p>
-    <img src="IMG_2831.png" alt="Birthday Surprise" />
+    <p id="modal-caption">A little Valentine surprise just for you 💕</p>
+    <img src="IMG_2831.png" alt="Valentine Surprise" />
   </div>
 
+  <!-- Romantic instrumental swap -->
   <audio id="bgMusic" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
 
   <script>
@@ -148,14 +155,15 @@
       music.currentTime = 0;
     });
 
-    // Confetti generator
-    for (let i = 0; i < 80; i++) {
-      const confetti = document.createElement('div');
-      confetti.classList.add('confetti');
-      confetti.style.left = `${Math.random() * 100}vw`;
-      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
-      confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
-      document.body.appendChild(confetti);
+    // Floating hearts
+    for (let i = 0; i < 60; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('confetti');
+      heart.innerHTML = "💗";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+      heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+      document.body.appendChild(heart);
     }
   </script>
 </body>
