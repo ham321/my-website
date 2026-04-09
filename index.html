@@ -1,148 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>💖 A Special Surprise 💌</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>👀 Important Message</title>
 
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'Comic Sans MS', cursive;
-  text-align:center;
-  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-  overflow:hidden;
-}
-
-/* Main screen */
-.content {
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
-}
-
-h1 { color:#b30059; margin-bottom:10px; }
-p { color:#5a2a40; }
-
-#gift {
-  font-size:5rem;
-  cursor:pointer;
-  transition:0.2s;
-}
-#gift:hover { transform:scale(1.2); }
-
-/* Game screen */
-#game {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#fff0f5;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color:white;
+  display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
+  height:100vh;
+  text-align:center;
 }
 
-#btn {
-  padding:15px 25px;
+/* Screens */
+.screen { display:none; }
+.active { display:block; }
+
+/* Buttons */
+button {
+  padding:15px 30px;
   font-size:1.2rem;
   border:none;
-  border-radius:20px;
-  background:#ff4d88;
-  color:white;
+  border-radius:10px;
   cursor:pointer;
-  position:absolute;
+  margin-top:20px;
 }
 
-/* Final message */
+#startBtn { background:#ff4d6d; color:white; }
+#yesBtn { background:#00cc66; color:white; }
+#noBtn { background:#ff3333; color:white; position:absolute; }
+
+/* Final */
 #final {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#111;
-  color:white;
-  justify-content:center;
-  align-items:center;
   font-size:2rem;
-  flex-direction:column;
-}
-
-/* Confetti */
-.confetti {
-  position:absolute;
-  font-size:20px;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  0% { transform:translateY(-10vh); }
-  100% { transform:translateY(110vh); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="content">
-  <h1>💖 You’ve Got a Surprise 💖</h1>
-  <p>Someone sent you something nice…</p>
-  <p>Tap the gift to claim it 🎁</p>
-  <div id="gift">💝</div>
+<!-- Intro -->
+<div id="start" class="screen active">
+  <h1>👀 Yo bro…</h1>
+  <p>I got something for you.</p>
+  <p>Don’t mess this up.</p>
+  <button id="startBtn">Continue</button>
 </div>
 
-<div id="game">
-  <h2>🎯 Catch the button to win your prize!</h2>
-  <button id="btn">CLICK ME</button>
+<!-- Build hype -->
+<div id="setup" class="screen">
+  <h2>💬 She said she wants to see you…</h2>
+  <p>Right now.</p>
+  <button id="nextBtn">I’m listening 👀</button>
 </div>
 
-<div id="final">
-  😂 YOU GOT PLAYED 😂
-  <br><br>
-  There was no prize 💀
-  <br><br>
-  <small>but you are the prize ❤️</small>
+<!-- Decision -->
+<div id="choice" class="screen">
+  <h2>Are you pulling up or what?</h2>
+  <button id="yesBtn">YES</button>
+  <button id="noBtn">Nah</button>
 </div>
 
-<audio id="music" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
+<!-- Loading -->
+<div id="loading" class="screen">
+  <h2>Setting it up…</h2>
+  <p id="status">Texting her...</p>
+</div>
+
+<!-- Final roast -->
+<div id="final" class="screen">
+  😂 BRO YOU THOUGHT 😂<br><br>
+  You clicked YES that fast??? 💀<br><br>
+  Down BAD 😭<br><br>
+  <small>I knew you'd fold instantly</small>
+</div>
 
 <script>
-const gift = document.getElementById("gift");
-const game = document.getElementById("game");
-const btn = document.getElementById("btn");
+const start = document.getElementById("start");
+const setup = document.getElementById("setup");
+const choice = document.getElementById("choice");
+const loading = document.getElementById("loading");
 const final = document.getElementById("final");
-const music = document.getElementById("music");
 
-// Start prank
-gift.onclick = () => {
-  document.querySelector(".content").style.display = "none";
-  game.style.display = "flex";
-  music.play();
+document.getElementById("startBtn").onclick = () => {
+  start.classList.remove("active");
+  setup.classList.add("active");
 };
 
-// Troll button movement
-btn.onmouseover = () => {
-  btn.style.top = Math.random() * window.innerHeight + "px";
-  btn.style.left = Math.random() * window.innerWidth + "px";
+document.getElementById("nextBtn").onclick = () => {
+  setup.classList.remove("active");
+  choice.classList.add("active");
 };
 
-// After some time → prank reveal
-setTimeout(() => {
-  if (game.style.display === "flex") {
-    game.style.display = "none";
-    final.style.display = "flex";
+// Make NO button run away (troll)
+const noBtn = document.getElementById("noBtn");
+noBtn.onmouseover = () => {
+  noBtn.style.top = Math.random() * window.innerHeight + "px";
+  noBtn.style.left = Math.random() * window.innerWidth + "px";
+};
 
-    // Confetti spam
-    for (let i = 0; i < 80; i++) {
-      let c = document.createElement("div");
-      c.className = "confetti";
-      c.innerHTML = "🎉";
-      c.style.left = Math.random() * 100 + "vw";
-      c.style.animationDuration = (Math.random()*3+2)+"s";
-      document.body.appendChild(c);
+// YES clicked
+document.getElementById("yesBtn").onclick = () => {
+  choice.classList.remove("active");
+  loading.classList.add("active");
+
+  let messages = [
+    "Texting her...",
+    "Sending your location...",
+    "She said 'hold on'...",
+    "She typing...",
+    "Wait...",
+    "Almost ready..."
+  ];
+
+  let i = 0;
+  let status = document.getElementById("status");
+
+  let interval = setInterval(() => {
+    status.innerText = messages[i];
+    i++;
+
+    if (i >= messages.length) {
+      clearInterval(interval);
+
+      setTimeout(() => {
+        loading.classList.remove("active");
+        final.classList.add("active");
+      }, 1500);
     }
-  }
-}, 8000);
+  }, 800);
+};
 </script>
 
 </body>
