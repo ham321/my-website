@@ -19,11 +19,9 @@ body {
   text-align:center;
 }
 
-/* Screens */
 .screen { display:none; }
 .active { display:block; }
 
-/* Buttons */
 button {
   padding:15px 30px;
   font-size:1.2rem;
@@ -33,54 +31,48 @@ button {
   margin-top:20px;
 }
 
-#startBtn { background:#ff4d6d; color:white; }
-#yesBtn { background:#00cc66; color:white; }
-#noBtn { background:#ff3333; color:white; position:absolute; }
+#startBtn { background:#ff4d6d; }
+#yesBtn { background:#00cc66; }
+#noBtn {
+  background:#ff3333;
+  position:absolute;
+}
 
-/* Final */
+/* final screen */
 #final {
   font-size:2rem;
+  line-height:1.5;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Intro -->
 <div id="start" class="screen active">
   <h1>👀 Yo bro…</h1>
-  <p>I got something for you.</p>
-  <p>Don’t mess this up.</p>
+  <p>I got something IMPORTANT.</p>
+  <p>Like… don’t fumble this.</p>
   <button id="startBtn">Continue</button>
 </div>
 
-<!-- Build hype -->
 <div id="setup" class="screen">
   <h2>💬 She said she wants to see you…</h2>
-  <p>Right now.</p>
-  <button id="nextBtn">I’m listening 👀</button>
+  <p>And I’m not joking.</p>
+  <button id="nextBtn">Say less 👀</button>
 </div>
 
-<!-- Decision -->
 <div id="choice" class="screen">
-  <h2>Are you pulling up or what?</h2>
+  <h2>Be honest… you pulling up?</h2>
   <button id="yesBtn">YES</button>
   <button id="noBtn">Nah</button>
 </div>
 
-<!-- Loading -->
 <div id="loading" class="screen">
-  <h2>Setting it up…</h2>
-  <p id="status">Texting her...</p>
+  <h2>Connecting you…</h2>
+  <p id="status">Analyzing desperation levels...</p>
 </div>
 
-<!-- Final roast -->
-<div id="final" class="screen">
-  😂 BRO YOU THOUGHT 😂<br><br>
-  You clicked YES that fast??? 💀<br><br>
-  Down BAD 😭<br><br>
-  <small>I knew you'd fold instantly</small>
-</div>
+<div id="final" class="screen"></div>
 
 <script>
 const start = document.getElementById("start");
@@ -89,6 +81,9 @@ const choice = document.getElementById("choice");
 const loading = document.getElementById("loading");
 const final = document.getElementById("final");
 
+let clickTime;
+
+// navigation
 document.getElementById("startBtn").onclick = () => {
   start.classList.remove("active");
   setup.classList.add("active");
@@ -97,9 +92,10 @@ document.getElementById("startBtn").onclick = () => {
 document.getElementById("nextBtn").onclick = () => {
   setup.classList.remove("active");
   choice.classList.add("active");
+  clickTime = Date.now();
 };
 
-// Make NO button run away (troll)
+// running NO button 💀
 const noBtn = document.getElementById("noBtn");
 noBtn.onmouseover = () => {
   noBtn.style.top = Math.random() * window.innerHeight + "px";
@@ -108,20 +104,23 @@ noBtn.onmouseover = () => {
 
 // YES clicked
 document.getElementById("yesBtn").onclick = () => {
+  let reaction = Date.now() - clickTime;
+
   choice.classList.remove("active");
   loading.classList.add("active");
 
+  let status = document.getElementById("status");
+
   let messages = [
-    "Texting her...",
-    "Sending your location...",
-    "She said 'hold on'...",
-    "She typing...",
-    "Wait...",
-    "Almost ready..."
+    "Analyzing desperation levels...",
+    "Calculating how fast you folded...",
+    "Checking dignity...",
+    "Dignity not found 💀",
+    "Reviewing your decision...",
+    "Yeah… this is crazy 😭"
   ];
 
   let i = 0;
-  let status = document.getElementById("status");
 
   let interval = setInterval(() => {
     status.innerText = messages[i];
@@ -133,9 +132,38 @@ document.getElementById("yesBtn").onclick = () => {
       setTimeout(() => {
         loading.classList.remove("active");
         final.classList.add("active");
+
+        // DIFFERENT ROASTS BASED ON SPEED
+        let roast = "";
+
+        if (reaction < 1000) {
+          roast = `
+          😂 INSTANT CLICK IS INSANE 😂<br><br>
+          Bro didn’t even blink 💀<br><br>
+          You were WAITING for this 😭<br><br>
+          <small>down catastrophic</small>
+          `;
+        } else if (reaction < 3000) {
+          roast = `
+          😂 YOU TRIED TO ACT CALM 😂<br><br>
+          But still clicked YES 💀<br><br>
+          We not fooled 😭<br><br>
+          <small>down bad with hesitation</small>
+          `;
+        } else {
+          roast = `
+          😂 YOU TOOK YOUR TIME 😂<br><br>
+          Acting like you had options 💀<br><br>
+          Still folded in the end 😭<br><br>
+          <small>delayed but still down bad</small>
+          `;
+        }
+
+        final.innerHTML = roast;
+
       }, 1500);
     }
-  }, 800);
+  }, 900);
 };
 </script>
 
