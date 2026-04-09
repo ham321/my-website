@@ -1,170 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>💖 Happy Valentine’s Day 💌</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💖 A Special Surprise 💌</title>
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow-x: hidden;
-    }
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 1rem;
-    }
+body {
+  font-family: 'Comic Sans MS', cursive;
+  text-align:center;
+  background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+  overflow:hidden;
+}
 
-    .content {
-      max-width: 600px;
-      width: 100%;
-      position: relative;
-    }
+/* Main screen */
+.content {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
 
-    h1 {
-      font-size: clamp(1.8rem, 5vw, 3rem);
-      margin-bottom: 1rem;
-      color: #b30059;
-    }
+h1 { color:#b30059; margin-bottom:10px; }
+p { color:#5a2a40; }
 
-    p {
-      font-size: clamp(1rem, 3vw, 1.2rem);
-      color: #5a2a40;
-      margin-bottom: 0.75rem;
-    }
+#gift {
+  font-size:5rem;
+  cursor:pointer;
+  transition:0.2s;
+}
+#gift:hover { transform:scale(1.2); }
 
-    #gift {
-      font-size: clamp(3rem, 10vw, 6rem);
-      cursor: pointer;
-      transition: transform 0.2s;
-      position: relative;
-      display: inline-block;
-    }
+/* Game screen */
+#game {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#fff0f5;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
 
-    #gift:hover::after {
-      content: "Click me! A little love awaits 💕";
-      position: absolute;
-      top: -2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff0f5;
-      color: #b30059;
-      padding: 0.3rem 0.6rem;
-      border-radius: 20px;
-      font-size: clamp(0.6rem, 2.5vw, 0.75rem);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      white-space: nowrap;
-      pointer-events: none;
-    }
+#btn {
+  padding:15px 25px;
+  font-size:1.2rem;
+  border:none;
+  border-radius:20px;
+  background:#ff4d88;
+  color:white;
+  cursor:pointer;
+  position:absolute;
+}
 
-    #gift:hover {
-      transform: scale(1.2);
-    }
+/* Final message */
+#final {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#111;
+  color:white;
+  justify-content:center;
+  align-items:center;
+  font-size:2rem;
+  flex-direction:column;
+}
 
-    /* Modal */
-    #imageModal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      padding: 1rem;
-      text-align: center;
-      visibility: hidden;
-      opacity: 0;
-      transition: opacity 0.3s ease, visibility 0.3s;
-    }
+/* Confetti */
+.confetti {
+  position:absolute;
+  font-size:20px;
+  animation: fall linear infinite;
+}
 
-    #imageModal.active {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    #modal-caption {
-      color: #ffe6f0;
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      margin-bottom: 1rem;
-      font-style: italic;
-      text-shadow: 0 0 8px rgba(255,0,100,0.6);
-    }
-
-    #imageModal img {
-      width: 90vw;
-      max-width: 500px;
-      height: auto;
-      max-height: 80vh;
-      box-shadow: 0 0 40px rgba(255, 105, 180, 0.8);
-      border-radius: 12px;
-    }
-
-    /* Floating Hearts */
-    .confetti {
-      position: absolute;
-      font-size: 16px;
-      animation: fall linear infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-    }
-
-  </style>
+@keyframes fall {
+  0% { transform:translateY(-10vh); }
+  100% { transform:translateY(110vh); }
+}
+</style>
 </head>
+
 <body>
-  <div class="content">
-    <h1>💖 Happy Valentine’s Day 💖</h1>
-    <p>Someone who cares about you wanted to send a little extra love your way today.</p>
-    <p>Tap the heart below to reveal your surprise… 💌✨</p>
-    <div id="gift">💝</div>
-  </div>
 
-  <div id="imageModal">
-    <p id="modal-caption">A little Valentine surprise just for you 💕</p>
-    <img src="IMG_2831.png" alt="Valentine Surprise" />
-  </div>
+<div class="content">
+  <h1>💖 You’ve Got a Surprise 💖</h1>
+  <p>Someone sent you something nice…</p>
+  <p>Tap the gift to claim it 🎁</p>
+  <div id="gift">💝</div>
+</div>
 
-  <!-- Romantic instrumental swap -->
-  <audio id="bgMusic" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
+<div id="game">
+  <h2>🎯 Catch the button to win your prize!</h2>
+  <button id="btn">CLICK ME</button>
+</div>
 
-  <script>
-    const gift = document.getElementById('gift');
-    const music = document.getElementById('bgMusic');
-    const modal = document.getElementById('imageModal');
+<div id="final">
+  😂 YOU GOT PLAYED 😂
+  <br><br>
+  There was no prize 💀
+  <br><br>
+  <small>but you are the prize ❤️</small>
+</div>
 
-    gift.addEventListener('click', () => {
-      modal.classList.add('active');
-      music.play();
-    });
+<audio id="music" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
 
-    modal.addEventListener('click', () => {
-      modal.classList.remove('active');
-      music.pause();
-      music.currentTime = 0;
-    });
+<script>
+const gift = document.getElementById("gift");
+const game = document.getElementById("game");
+const btn = document.getElementById("btn");
+const final = document.getElementById("final");
+const music = document.getElementById("music");
 
-    // Floating hearts
-    for (let i = 0; i < 60; i++) {
-      const heart = document.createElement('div');
-      heart.classList.add('confetti');
-      heart.innerHTML = "💗";
-      heart.style.left = `${Math.random() * 100}vw`;
-      heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
-      heart.style.fontSize = `${Math.random() * 20 + 10}px`;
-      document.body.appendChild(heart);
+// Start prank
+gift.onclick = () => {
+  document.querySelector(".content").style.display = "none";
+  game.style.display = "flex";
+  music.play();
+};
+
+// Troll button movement
+btn.onmouseover = () => {
+  btn.style.top = Math.random() * window.innerHeight + "px";
+  btn.style.left = Math.random() * window.innerWidth + "px";
+};
+
+// After some time → prank reveal
+setTimeout(() => {
+  if (game.style.display === "flex") {
+    game.style.display = "none";
+    final.style.display = "flex";
+
+    // Confetti spam
+    for (let i = 0; i < 80; i++) {
+      let c = document.createElement("div");
+      c.className = "confetti";
+      c.innerHTML = "🎉";
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.animationDuration = (Math.random()*3+2)+"s";
+      document.body.appendChild(c);
     }
-  </script>
+  }
+}, 8000);
+</script>
+
 </body>
 </html>
