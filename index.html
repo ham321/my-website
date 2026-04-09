@@ -1,171 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>👀 Important Message</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💖 Happy Valentine’s Day 💌</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #1a1a1a, #333);
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  text-align:center;
-}
-
-.screen { display:none; }
-.active { display:block; }
-
-button {
-  padding:15px 30px;
-  font-size:1.2rem;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  margin-top:20px;
-}
-
-#startBtn { background:#ff4d6d; }
-#yesBtn { background:#00cc66; }
-#noBtn {
-  background:#ff3333;
-  position:absolute;
-}
-
-/* final screen */
-#final {
-  font-size:2rem;
-  line-height:1.5;
-}
-</style>
-</head>
-
-<body>
-
-<div id="start" class="screen active">
-  <h1>👀 Yo bro…</h1>
-  <p>I got something IMPORTANT.</p>
-  <p>Like… don’t fumble this.</p>
-  <button id="startBtn">Continue</button>
-</div>
-
-<div id="setup" class="screen">
-  <h2>💬 She said she wants to see you…</h2>
-  <p>And I’m not joking.</p>
-  <button id="nextBtn">Say less 👀</button>
-</div>
-
-<div id="choice" class="screen">
-  <h2>Be honest… you pulling up?</h2>
-  <button id="yesBtn">YES</button>
-  <button id="noBtn">Nah</button>
-</div>
-
-<div id="loading" class="screen">
-  <h2>Connecting you…</h2>
-  <p id="status">Analyzing desperation levels...</p>
-</div>
-
-<div id="final" class="screen"></div>
-
-<script>
-const start = document.getElementById("start");
-const setup = document.getElementById("setup");
-const choice = document.getElementById("choice");
-const loading = document.getElementById("loading");
-const final = document.getElementById("final");
-
-let clickTime;
-
-// navigation
-document.getElementById("startBtn").onclick = () => {
-  start.classList.remove("active");
-  setup.classList.add("active");
-};
-
-document.getElementById("nextBtn").onclick = () => {
-  setup.classList.remove("active");
-  choice.classList.add("active");
-  clickTime = Date.now();
-};
-
-// running NO button 💀
-const noBtn = document.getElementById("noBtn");
-noBtn.onmouseover = () => {
-  noBtn.style.top = Math.random() * window.innerHeight + "px";
-  noBtn.style.left = Math.random() * window.innerWidth + "px";
-};
-
-// YES clicked
-document.getElementById("yesBtn").onclick = () => {
-  let reaction = Date.now() - clickTime;
-
-  choice.classList.remove("active");
-  loading.classList.add("active");
-
-  let status = document.getElementById("status");
-
-  let messages = [
-    "Analyzing desperation levels...",
-    "Calculating how fast you folded...",
-    "Checking dignity...",
-    "Dignity not found 💀",
-    "Reviewing your decision...",
-    "Yeah… this is crazy 😭"
-  ];
-
-  let i = 0;
-
-  let interval = setInterval(() => {
-    status.innerText = messages[i];
-    i++;
-
-    if (i >= messages.length) {
-      clearInterval(interval);
-
-      setTimeout(() => {
-        loading.classList.remove("active");
-        final.classList.add("active");
-
-        // DIFFERENT ROASTS BASED ON SPEED
-        let roast = "";
-
-        if (reaction < 1000) {
-          roast = `
-          😂 INSTANT CLICK IS INSANE 😂<br><br>
-          Bro didn’t even blink 💀<br><br>
-          You were WAITING for this 😭<br><br>
-          <small>down catastrophic</small>
-          `;
-        } else if (reaction < 3000) {
-          roast = `
-          😂 YOU TRIED TO ACT CALM 😂<br><br>
-          But still clicked YES 💀<br><br>
-          We not fooled 😭<br><br>
-          <small>down bad with hesitation</small>
-          `;
-        } else {
-          roast = `
-          😂 YOU TOOK YOUR TIME 😂<br><br>
-          Acting like you had options 💀<br><br>
-          Still folded in the end 😭<br><br>
-          <small>delayed but still down bad</small>
-          `;
-        }
-
-        final.innerHTML = roast;
-
-      }, 1500);
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow-x: hidden;
     }
-  }, 900);
-};
-</script>
 
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .content {
+      max-width: 600px;
+      width: 100%;
+      position: relative;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+      color: #b30059;
+    }
+
+    p {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: #5a2a40;
+      margin-bottom: 0.75rem;
+    }
+
+    #gift {
+      font-size: clamp(3rem, 10vw, 6rem);
+      cursor: pointer;
+      transition: transform 0.2s;
+      position: relative;
+      display: inline-block;
+    }
+
+    #gift:hover::after {
+      content: "Click me! A little love awaits 💕";
+      position: absolute;
+      top: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff0f5;
+      color: #b30059;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: clamp(0.6rem, 2.5vw, 0.75rem);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    #gift:hover {
+      transform: scale(1.2);
+    }
+
+    /* Modal */
+    #imageModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 1rem;
+      text-align: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+
+    #imageModal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #modal-caption {
+      color: #ffe6f0;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      margin-bottom: 1rem;
+      font-style: italic;
+      text-shadow: 0 0 8px rgba(255,0,100,0.6);
+    }
+
+    #imageModal img {
+      width: 90vw;
+      max-width: 500px;
+      height: auto;
+      max-height: 80vh;
+      box-shadow: 0 0 40px rgba(255, 105, 180, 0.8);
+      border-radius: 12px;
+    }
+
+    /* Floating Hearts */
+    .confetti {
+      position: absolute;
+      font-size: 16px;
+      animation: fall linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>💖 Happy Valentine’s Day 💖</h1>
+    <p>Someone who cares about you wanted to send a little extra love your way today.</p>
+    <p>Tap the heart below to reveal your surprise… 💌✨</p>
+    <div id="gift">💝</div>
+  </div>
+
+  <div id="imageModal">
+    <p id="modal-caption">A little Valentine surprise just for you 💕</p>
+    <img src="IMG_2831.png" alt="Valentine Surprise" />
+  </div>
+
+  <!-- Romantic instrumental swap -->
+  <audio id="bgMusic" src="https://raw.githubusercontent.com/ham321/my-website/main/sound-effect-happy-birthday-music-box-333245.mp3"></audio>
+
+  <script>
+    const gift = document.getElementById('gift');
+    const music = document.getElementById('bgMusic');
+    const modal = document.getElementById('imageModal');
+
+    gift.addEventListener('click', () => {
+      modal.classList.add('active');
+      music.play();
+    });
+
+    modal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      music.pause();
+      music.currentTime = 0;
+    });
+
+    // Floating hearts
+    for (let i = 0; i < 60; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('confetti');
+      heart.innerHTML = "💗";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.animationDuration = `${Math.random() * 4 + 4}s`;
+      heart.style.fontSize = `${Math.random() * 20 + 10}px`;
+      document.body.appendChild(heart);
+    }
+  </script>
 </body>
 </html>
